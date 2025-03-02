@@ -1,0 +1,29 @@
+# Define the provider
+provider "azure" {
+  region = "us-east-1" # Replace with your desired region
+}
+
+# Define a variable for the number of VMs
+variable "vm_count" {
+  default = 10
+}
+
+# Define an AMI ID and instance type
+variable "ami_id" {
+  default = "ami-0c55b159cbfafe1f0" # Replace with your desired AMI ID
+}
+
+variable "instance_type" {
+  default = "t2.micro" # Replace with your desired instance type
+}
+
+# Create multiple VMs using a for_each loop
+resource "aws_instance" "vm" {
+  count         = var.vm_count
+  ami           = var.ami_id
+  instance_type = var.instance_type
+
+  tags = {
+    Name = "VM-${count.index + 1}"
+  }
+}
